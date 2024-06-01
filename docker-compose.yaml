@@ -1,9 +1,7 @@
 services:
-
   postgres:
     image: postgres:15.7
     restart: always
-    # set shared memory limit when using docker-compose
     shm_size: 128mb
     command:
       - "postgres"
@@ -30,6 +28,13 @@ services:
       PGADMIN_LISTEN_PORT: 80
     depends_on:
       - postgres
+
+  orders:
+    image: orders
+    ports: 
+      - 8080:8080
+    depends_on:
+      - postgres      
 
 volumes:
   pg_data_volume:

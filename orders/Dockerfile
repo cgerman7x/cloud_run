@@ -1,7 +1,7 @@
 FROM python:slim
 ENV PORT 8080
 
-COPY .. .
+COPY . .
 
 RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
