@@ -1,0 +1,36 @@
+services:
+
+  postgres:
+    image: postgres:15.7
+    restart: always
+    # set shared memory limit when using docker-compose
+    shm_size: 128mb
+    command:
+      - "postgres"
+      - "-c"
+      - "max_connections=100"
+      - "-c"
+      - "shared_buffers=512MB"    
+    volumes:
+      - pg_data_volume:/var/lib/postgresql
+    environment:
+      POSTGRES_DB: orders
+      POSTGRES_USER: sys
+      POSTGRES_PASSWORD: password
+
+  pg_admin:
+    image: dpage/pgadmin4
+    ports: 
+      - 8090:80
+    volumes:
+      - pgadmin:/var/lib/pgadmin      
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@email.com
+      PGADMIN_DEFAULT_PASSWORD: password
+      PGADMIN_LISTEN_PORT: 80
+    depends_on:
+      - postgres
+
+volumes:
+  pg_data_volume:
+  pgadmin:
